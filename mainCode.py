@@ -338,34 +338,39 @@ def start_post_write(browser, manuscript, naver_id_list, cafe_info_urls, PATH_IM
             title_list.append(title)
             comments_list.append(comment)
 
-        for i in range(len(naver_id_list[0])):
-            NAVER_ID = naver_id_list[0][i]
-            NAVER_PW = naver_id_list[1][i]
-            naverLogin(NAVER_ID, NAVER_PW, browser)
-            if browser.current_url == 'https://nid.naver.com/nidlogin.login':
-                return 0, NAVER_ID
+        c = 0
 
-            time.sleep(1)
+        while c != len(cafe_info_urls):
+            for i in range(len(naver_id_list[0])):
+                if len(cafe_info_urls) <= c:
+                    break
 
-            for j in range(len(cafe_info_urls)):
                 random_int = int(random() * len(title_list))
-                
+
                 TITLE = title_list[random_int]
                 comments = comments_list[random_int]
-                
-                print(f"{random_int}째 제목")
-                print(f"{random_int}째 내용")
 
-                cafe_url = cafe_info_urls[j]
+                NAVER_ID = naver_id_list[0][i]
+                NAVER_PW = naver_id_list[1][i]
+
+                naverLogin(NAVER_ID, NAVER_PW, browser)
+                if browser.current_url == 'https://nid.naver.com/nidlogin.login':
+                    return 0, NAVER_ID
+
+                cafe_url = cafe_info_urls[c]
+
                 try:
                     post_url, n_cafe_name = CafePostWriting(browser, TITLE, cafe_url, comments, PATH_IMG, tag_list, url_list)
                 except:
+                    pass
                     return 2, NAVER_ID
                 post_urls.append(post_url[0])
 
-            browser.switch_to.window(browser.window_handles[0])
-            time.sleep(1)
-            naverLogout(browser)
+                browser.switch_to.window(browser.window_handles[0])
+                time.sleep(1)
+                naverLogout(browser)
+
+                c += 1
 
         dt = datetime.now().strftime("%Y-%m-%d_%H%M")
         df = pd.DataFrame({'게시글 작성 URL' : post_urls})
