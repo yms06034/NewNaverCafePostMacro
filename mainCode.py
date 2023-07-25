@@ -374,7 +374,7 @@ def start_post_write(browser, manuscript, naver_id_list, cafe_info_urls, PATH_IM
 
         dt = datetime.now().strftime("%Y-%m-%d_%H%M")
         df = pd.DataFrame({'게시글 작성 URL' : post_urls})
-        df.to_excel(f'{n_cafe_name} ULR_{dt}.xlsx', index=False)
+        df.to_csv(f'{n_cafe_name}_ULR_{dt}.csv', index=False, encoding='utf-8-sig')
 
         browser.quit()
 
@@ -382,7 +382,7 @@ def start_post_write(browser, manuscript, naver_id_list, cafe_info_urls, PATH_IM
         print(ex)
         dt = datetime.now().strftime("%Y-%m-%d_%H%M")
         df = pd.DataFrame({'게시글 작성 URL' : post_urls})
-        df.to_excel(f'{n_cafe_name} ULR_{dt}.xlsx', index=False)
+        df.to_csv(f'{n_cafe_name}_ULR_{dt}.csv', index=False, encoding='utf-8-sig')
 
         browser.quit()
     return 1, post_urls
