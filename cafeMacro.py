@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         main_ui.setupUi(self)     
         self.show()
-        self.setWindowTitle("Cafe Macro")
+        self.setWindowTitle("Naver Cafe Post Macro")
         self.browser = None
         self.PATH_IMG1 = None
         self.PATH_IMG2 = None
